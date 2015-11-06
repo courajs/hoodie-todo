@@ -1,7 +1,16 @@
-{{model.length}} todos:
+<p>
+  {{model.length}} todos:
+</p>
+<ul>
 {{#each model as |todo|}}
-  {{todo.title}}
+  <li>{{todo.title}}</li>
 {{/each}}
-<label>Todo: {{input value=title}}
-<button {{action 'addTodo' title}}>New</button>
-</label>
+</ul>
+
+<form {{action 'addTodo' title on="submit"}}>
+  <label>
+    <strong>New Todo</strong><br>
+    {{input value=title placeholder="set Title"}}
+  </label>
+  <button type="submit">add</button>
+</form>
