@@ -1,2 +1,6 @@
 <h3>It's a todo!</h3>
-<p>{{model.title}}</p>
+<form {{action "saveTodo" model on="submit"}}>
+{{input value=model.title}}
+{{textarea value=model.note}}
+<input type=submit value="Save changes">
+</form>

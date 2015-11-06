@@ -29,8 +29,11 @@ export default DS.Adapter.extend({
 
       return hoodieStore.add(record).then(toJsonApi)
     },
-    updateRecord() {
-      return Promise.reject(new Error('not yet implemented'))
+    updateRecord(store, type, snapshot) {
+      let serialized = this.serialize(snapshot, {includeId: true})
+      let hoodieFormatted = toHoodieData(serialized)
+
+      return hoodieStore.update(hoodieFormatted).then(toJsonApi)
     },
     deleteRecord(store, type, snapshot) {
       let serialized = this.serialize(snapshot, { includeId: true});
@@ -60,11 +63,17 @@ function toJsonApiRecord(record) {
     id: record.id,
     type: record.type,
     attributes: {
-      title: record.title
+      title: record.title,
+      note: record.note
     }
   }
 }
 
 function toHoodieData(data) {
-
+  return {
+    id: data.data.id,
+    type: data.data.type,
+    title: data.data.attributes.title,
+    note: data.data.attributes.note
+  };
 }

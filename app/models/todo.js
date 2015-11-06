@@ -5,5 +5,6 @@ const {
 } = DS;
 
 export default DS.Model.extend({
-  title: attr('string')
+  title: attr('string'),
+  note: attr('string')
 });
