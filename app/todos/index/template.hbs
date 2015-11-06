@@ -2,3 +2,6 @@
 {{#each model as |todo|}}
   {{todo.title}}
 {{/each}}
+<label>Todo: {{input value=title}}
+<button {{action 'addTodo' title}}>New</button>
+</label>
