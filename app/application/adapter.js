@@ -17,8 +17,8 @@ var hoodieStore = window.hoodieStore = new Store(storeId, {
 })
 
 export default DS.Adapter.extend({
-    findRecord() {
-      return Promise.reject(new Error('not yet implemented'))
+    findRecord(store, type, id) {
+      return hoodieStore.find(id).then(toJsonApi)
     },
     createRecord(store, type, snapshot) {
       let serialized = this.serialize(snapshot);
