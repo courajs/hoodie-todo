@@ -12,7 +12,7 @@ if (!storeId) {
 }
 
 
-var hoodieStore = window.hoodieStore = new Store(storeId, {
+window.hoodieStore = new Store(storeId, {
   remote: '/api'
 })
 
