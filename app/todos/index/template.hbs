@@ -3,7 +3,7 @@
 </p>
 <ul>
 {{#each model as |todo|}}
-  <li>{{todo.title}}</li>
+  <li>{{todo.title}}  <button {{action "deleteTodo" todo}}>X</button></li>
 {{/each}}
 </ul>
 

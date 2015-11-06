@@ -18,7 +18,7 @@ var hoodieStore = window.hoodieStore = new Store(storeId, {
 
 export default DS.Adapter.extend({
     findRecord() {
-      return Promise.reject('funky')
+      return Promise.reject(new Error('not yet implemented'))
     },
     createRecord(store, type, snapshot) {
       let serialized = this.serialize(snapshot);
@@ -30,16 +30,18 @@ export default DS.Adapter.extend({
       return hoodieStore.add(record).then(toJsonApi)
     },
     updateRecord() {
-      return Promise.reject('funky')
+      return Promise.reject(new Error('not yet implemented'))
     },
-    deleteRecord() {
-      return Promise.reject('funky')
+    deleteRecord(store, type, snapshot) {
+      let serialized = this.serialize(snapshot, { includeId: true});
+      let id = snapshot.id;
+      return hoodieStore.remove(id).then(toJsonApi)
     },
     findAll() {
       return hoodieStore.findAll().then(toJsonApi)
     },
     query() {
-      return Promise.reject('funky')
+      return Promise.reject(new Error('not yet implemented'))
     }
 });
 
