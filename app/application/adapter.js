@@ -1,7 +1,5 @@
 // export { default } from 'ember-local-storage/adapters/adapter';
 
-console.log('funky')
-
 import DS from 'ember-data';
 import Store from 'npm:pouchdb-hoodie-store';
 import randomString from 'npm:random-string';
@@ -14,7 +12,7 @@ if (!storeId) {
 }
 
 
-var store = window.store = new Store(storeId, {
+var hoodieStore = window.hoodieStore = new Store(storeId, {
   remote: '/api'
 })
 
@@ -22,8 +20,14 @@ export default DS.Adapter.extend({
     findRecord() {
       return Promise.reject('funky')
     },
-    createRecord() {
-      return Promise.reject('funky')
+    createRecord(store, type, snapshot) {
+      let serialized = this.serialize(snapshot);
+      let record = {
+        type: type.modelName,
+        title: serialized.data.attributes.title
+      };
+
+      return hoodieStore.add(record).then(toJsonApi)
     },
     updateRecord() {
       return Promise.reject('funky')
@@ -32,7 +36,7 @@ export default DS.Adapter.extend({
       return Promise.reject('funky')
     },
     findAll() {
-      return store.findAll().then(toJsonApi)
+      return hoodieStore.findAll().then(toJsonApi)
     },
     query() {
       return Promise.reject('funky')
@@ -41,7 +45,7 @@ export default DS.Adapter.extend({
 
 function toJsonApi(data) {
   if (!Array.isArray(data)) {
-    return toJsonApiRecord(data)
+    return { data: toJsonApiRecord(data) }
   }
 
   return {
